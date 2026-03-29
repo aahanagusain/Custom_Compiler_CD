@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoveLang — AI-Powered NLP Compiler</title>
+    <meta name="description" content="Write code in plain English. NoveLang's NLP engine translates it into a custom programming language and compiles it in real-time.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=11">
+</head>
+<body>
+
+    <!-- ── Animated Background ─────────────────────────────────────── -->
+    <div class="bg-effects">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ── Header ──────────────────────────────────────────────────── -->
+    <header id="main-header">
+        <div class="header-left">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1>NoveLang</h1>
+                <span class="badge">AI Compiler</span>
+            </div>
+            <p class="tagline">Write English → Get Code → See It Run</p>
+        </div>
+        <div class="header-right">
+            <div class="example-selector">
+                <select id="example-select">
+                    <option value="">📂 Load Example...</option>
+                </select>
+            </div>
+            <button id="btn-run-all" class="btn btn-primary btn-glow">
+                <span class="btn-icon">🚀</span> Run All
+            </button>
+        </div>
+    </header>
+
+    <!-- ── Pipeline Visualizer ─────────────────────────────────────── -->
+    <section id="pipeline-bar">
+        <div class="pipeline-stage" data-stage="nlp">
+            <div class="stage-dot"></div>
+            <span class="stage-label">NLP Engine</span>
+            <span class="stage-time"></span>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-stage" data-stage="lexer">
+            <div class="stage-dot"></div>
+            <span class="stage-label">Lexer</span>
+            <span class="stage-time"></span>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-stage" data-stage="parser">
+            <div class="stage-dot"></div>
+            <span class="stage-label">Parser</span>
+            <span class="stage-time"></span>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-stage" data-stage="semantic">
+            <div class="stage-dot"></div>
+            <span class="stage-label">Semantic</span>
+            <span class="stage-time"></span>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-stage" data-stage="interpreter">
+            <div class="stage-dot"></div>
+            <span class="stage-label">Interpreter</span>
+            <span class="stage-time"></span>
+        </div>
+    </section>
+
+    <!-- ── Main Editor Grid ────────────────────────────────────────── -->
+    <main id="editor-grid">
+        <!-- English Input Panel -->
+        <div class="panel" id="panel-english">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span class="panel-icon">📝</span> Plain English
+                </div>
+                <button id="btn-translate" class="btn btn-sm btn-accent">
+                    ⚡ Translate
+                </button>
+            </div>
+            <div class="panel-body">
+                <textarea id="english-input" spellcheck="false" placeholder="Type your program in plain English...&#10;&#10;Example:&#10;create a variable called x and set it to 10&#10;if x is greater than 5 then&#10;  print &quot;x is big!&quot;&#10;otherwise&#10;  print &quot;x is small&quot;&#10;end"></textarea>
+            </div>
+        </div>
+
+        <!-- Analysis Panel (Tabbed) -->
+        <div class="panel" id="panel-analysis">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span class="panel-icon">🔍</span> Analysis
+                </div>
+                <div class="tab-bar">
+                    <button class="tab active" data-tab="nlp-tab">NLP</button>
+                    <button class="tab" data-tab="tokens-tab">Tokens</button>
+                    <button class="tab" data-tab="ast-tab">AST</button>
+                    <button class="tab" data-tab="semantic-tab">Semantic</button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content active" id="nlp-tab">
+                    <div class="empty-state">Run the translator to see NLP analysis</div>
+                </div>
+                <div class="tab-content" id="tokens-tab">
+                    <div class="empty-state">Compile code to see token stream</div>
+                </div>
+                <div class="tab-content" id="ast-tab">
+                    <div class="empty-state">Compile code to see the AST</div>
+                </div>
+                <div class="tab-content" id="semantic-tab">
+                    <div class="empty-state">Run the compiler to see semantic analysis</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NoveLang Output Panel -->
+        <div class="panel" id="panel-novelang">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span class="panel-icon">💻</span> NoveLang Code
+                </div>
+                <button id="btn-compile" class="btn btn-sm btn-success">
+                    ▶ Compile & Run
+                </button>
+            </div>
+            <div class="panel-body">
+                <pre id="novelang-output" class="code-display"><span class="placeholder">NoveLang code will appear here after translation...</span></pre>
+            </div>
+        </div>
+
+        <!-- Terminal Output Panel -->
+        <div class="panel" id="panel-output">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span class="panel-icon">📊</span> Program Output
+                </div>
+                <button id="btn-clear" class="btn btn-sm btn-ghost">
+                    ✕ Clear
+                </button>
+            </div>
+            <div class="panel-body">
+                <div id="terminal-output" class="terminal">
+                    <div class="terminal-line system">NoveLang Compiler v1.0 — Ready</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ── Footer ──────────────────────────────────────────────────── -->
+    <footer id="status-bar">
+        <div class="status-left">
+            <span class="status-dot online"></span>
+            <span id="status-text">Ready</span>
+        </div>
+        <div class="status-right">
+            <span id="total-time"></span>
+            <span class="separator">|</span>
+            <span>NoveLang AI Compiler</span>
+        </div>
+    </footer>
+
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>
