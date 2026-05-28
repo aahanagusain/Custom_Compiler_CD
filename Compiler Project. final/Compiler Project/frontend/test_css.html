@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.container {
+    width: 300px; /* Small container */
+    height: 100px;
+    border: 2px solid red;
+    display: flex;
+    overflow: auto;
+}
+.container::before,
+.container::after {
+    content: '';
+    margin: auto;
+}
+.box {
+    width: 500px; /* Larger than container */
+    height: 50px;
+    background: blue;
+    flex-shrink: 0;
+    color: white;
+}
+.container2 {
+    width: 600px; /* Larger than box */
+    height: 100px;
+    border: 2px solid green;
+    display: flex;
+    overflow: auto;
+}
+.container2::before,
+.container2::after {
+    content: '';
+    margin: auto;
+}
+</style>
+</head>
+<body>
+    <p>Container 1 (Overflow): Left side should be visible, scroll right.</p>
+    <div class="container">
+        <div class="box">LEFT EDGE --- RIGHT EDGE</div>
+    </div>
+    
+    <p>Container 2 (Fits): Box should be centered.</p>
+    <div class="container2">
+        <div class="box">LEFT EDGE --- RIGHT EDGE</div>
+    </div>
+</body>
+</html>

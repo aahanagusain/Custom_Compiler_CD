@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoveLang — AI-Powered NLP Compiler</title>
+    <meta name="description" content="Write code in plain English. NoveLang's NLP engine translates it into a custom programming language and compiles it in real-time.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20">
+</head>
+<body>
+
+    <!-- ── Animated Background ─────────────────────────────────────── -->
+    <div class="bg-effects">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ── Header ──────────────────────────────────────────────────── -->
+    <header id="main-header">
+        <div class="header-left">
+            <div class="logo">
+                <svg class="logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                <h1>NoveLang</h1>
+                <span class="badge">AI Compiler</span>
+            </div>
+            <p class="tagline">Write English &rarr; Get Code &rarr; See It Run</p>
+        </div>
+        <div class="header-right">
+            <div class="example-selector">
+                <select id="example-select" aria-label="Load an example program">
+                    <option value="">Load Example...</option>
+                </select>
+            </div>
+            <button id="btn-run-all" class="btn btn-primary btn-glow" aria-label="Run full pipeline">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run All
+            </button>
+        </div>
+    </header>
+
+    <!-- ── Pipeline Visualizer ─────────────────────────────────────── -->
+    <section id="pipeline-bar" aria-label="Compilation pipeline stages">
+        <div class="pipeline-stage" data-stage="nlp" role="button" tabindex="0" aria-label="NLP Engine stage">
+            <div class="stage-dot"></div>
+            <span class="stage-label">NLP Engine</span>
+            <span class="stage-time"></span>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-stage" data-stage="lexer" role="button" tabindex="0" aria-label="Lexer stage">
+            <div class="stage-dot"></div>
+            <span class="stage-label">Lexer</span>
+            <span class="stage-time"></span>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-stage" data-stage="parser" role="button" tabindex="0" aria-label="Parser stage">
+            <div class="stage-dot"></div>
+            <span class="stage-label">Parser</span>
+            <span class="stage-time"></span>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-stage" data-stage="semantic" role="button" tabindex="0" aria-label="Semantic stage">
+            <div class="stage-dot"></div>
+            <span class="stage-label">Semantic</span>
+            <span class="stage-time"></span>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-stage" data-stage="interpreter" role="button" tabindex="0" aria-label="Interpreter stage">
+            <div class="stage-dot"></div>
+            <span class="stage-label">Interpreter</span>
+            <span class="stage-time"></span>
+        </div>
+    </section>
+
+    <!-- ── Main Editor Grid ────────────────────────────────────────── -->
+    <main id="editor-grid">
+
+        <!-- English Input Panel -->
+        <div class="panel" id="panel-english">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    Plain English
+                </div>
+                <button id="btn-translate" class="btn btn-sm btn-accent" aria-label="Translate to NoveLang">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    Translate
+                </button>
+            </div>
+            <div class="panel-body">
+                <textarea id="english-input" spellcheck="false" aria-label="Enter your program in plain English" placeholder="Type your program in plain English...&#10;&#10;Example:&#10;create a variable called x and set it to 10&#10;if x is greater than 5 then&#10;  print &quot;x is big!&quot;&#10;otherwise&#10;  print &quot;x is small&quot;&#10;end"></textarea>
+            </div>
+        </div>
+
+        <!-- Analysis Panel (Tabbed) -->
+        <div class="panel" id="panel-analysis">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    Analysis
+                </div>
+                <div class="tab-bar" role="tablist" aria-label="Analysis tabs">
+                    <button class="tab active" data-tab="nlp-tab" role="tab" aria-selected="true" aria-controls="nlp-tab">NLP</button>
+                    <button class="tab" data-tab="tokens-tab" role="tab" aria-selected="false" aria-controls="tokens-tab">Tokens</button>
+                    <button class="tab" data-tab="ast-tab" role="tab" aria-selected="false" aria-controls="ast-tab">AST</button>
+                    <button class="tab" data-tab="semantic-tab" role="tab" aria-selected="false" aria-controls="semantic-tab">Semantic</button>
+                    <button class="tab tab-optimizer" data-tab="optimizer-tab" role="tab" aria-selected="false" aria-controls="optimizer-tab">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        Optimizer
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content active" id="nlp-tab" role="tabpanel">
+                    <div class="empty-state">Run the translator to see NLP analysis</div>
+                </div>
+                <div class="tab-content" id="tokens-tab" role="tabpanel">
+                    <div class="empty-state">Compile code to see token stream</div>
+                </div>
+                <div class="tab-content" id="ast-tab" role="tabpanel">
+                    <div class="empty-state">Compile code to see the AST</div>
+                </div>
+                <div class="tab-content" id="semantic-tab" role="tabpanel">
+                    <div class="empty-state">Run the compiler to see semantic analysis</div>
+                </div>
+                <div class="tab-content" id="optimizer-tab" role="tabpanel">
+                    <div class="empty-state">Click "Optimized" tab in NoveLang Code panel to run optimizer</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NoveLang Output Panel -->
+        <div class="panel" id="panel-novelang">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    NoveLang Code
+                </div>
+                <div class="tab-bar code-tab-bar" role="tablist" aria-label="Code view tabs">
+                    <button class="tab active" data-code-tab="source" role="tab" aria-selected="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+                        Source
+                    </button>
+                    <button class="tab tab-opt-code" data-code-tab="optimizer" role="tab" aria-selected="false" id="btn-optimizer-tab">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        Optimized
+                        <span class="opt-dot" id="opt-dot" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <button id="btn-compile" class="btn btn-sm btn-success" aria-label="Compile and run code">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Compile &amp; Run
+                </button>
+            </div>
+
+            <div class="panel-body">
+                <pre id="novelang-output" class="code-display" aria-label="NoveLang code output"><span class="placeholder">NoveLang code will appear here after translation...</span></pre>
+            </div>
+        </div>
+
+        <!-- Terminal Output Panel -->
+        <div class="panel" id="panel-output">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    Program Output
+                </div>
+                <button id="btn-clear" class="btn btn-sm btn-ghost" aria-label="Clear terminal output">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                    Clear
+                </button>
+            </div>
+            <div class="panel-body">
+                <div id="terminal-output" class="terminal" aria-live="polite" aria-label="Program output terminal">
+                    <div class="terminal-line system">NoveLang Compiler v1.0 &mdash; Ready</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ── Footer ──────────────────────────────────────────────────── -->
+    <footer id="status-bar" role="status" aria-live="polite">
+        <div class="status-left">
+            <span class="status-dot online" aria-hidden="true"></span>
+            <span id="status-text">Ready</span>
+        </div>
+        <div class="status-right">
+            <span id="total-time"></span>
+            <span class="separator" aria-hidden="true">|</span>
+            <span>NoveLang AI Compiler</span>
+        </div>
+    </footer>
+
+    <script src="js/app.js?v=20"></script>
+</body>
+</html>
